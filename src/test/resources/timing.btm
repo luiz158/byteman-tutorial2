@@ -1,0 +1,116 @@
+########################################################################
+# JBoss, Home of Professional Open Source
+# Copyright 2011, Red Hat and individual contributors as identified
+# by the @authors tag. See the copyright.txt in the distribution for a
+# full listing of individual contributors.
+#
+# This is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation; either version 2.1 of
+# the License, or (at your option) any later version.
+#
+# This software is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this software; if not, write to the Free
+# Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+# 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+#
+# @authors Andrew Dinn
+#
+
+########################################################################
+# rule script used by test method BasicTests.testForwardPublishing
+#
+
+########################################################################
+# A rule to create the rendezvous and counter for the Binder
+RULE create Binder rendezvous and counter
+CLASS Binder
+METHOD <init>
+IF TRUE
+DO createRendezvous($0, 2, true);
+   createCounter($0)
+ENDRULE
+
+# A rule to create the rendezvous and counter for the BindingReplacer
+RULE create BindingReplacer rendezvous and counter
+CLASS BindingReplacer
+METHOD <init>
+IF TRUE
+DO createRendezvous($0, 2, true);
+   createCounter($0)
+ENDRULE
+
+# A rule to increment the counter for the Binder or BindingReplacer each time a line of text is processed
+#RULE increment Binder or BindingReplacer line counter
+#CLASS ^TextLineProcessor
+#METHOD transform
+#AT ENTRY
+#IF TRUE
+#DO incrementCounter($0)
+#ENDRULE
+
+RULE increment Binder line counter
+CLASS Binder
+METHOD transform
+AT ENTRY
+IF TRUE
+DO incrementCounter($0)
+ENDRULE
+
+RULE increment BindingReplacer line counter
+CLASS BindingReplacer
+METHOD transform
+AT ENTRY
+IF TRUE
+DO incrementCounter($0)
+ENDRULE
+
+# A rule to enter the first rendezvous for the Binder
+RULE enter first Binder rendezvous
+CLASS Binder
+METHOD transform
+AT ENTRY
+IF readCounter($0) == 3
+DO rendezvous($0)
+ENDRULE
+
+# A rule to enter the second rendezvous for the Binder
+RULE enter second Binder rendezvous
+CLASS Binder
+METHOD transform
+AT EXIT
+IF readCounter($0) == 3
+DO rendezvous($0)
+ENDRULE
+
+# A rule to enter the first rendezvous for the BindingReplacer
+RULE enter first BindingReplacer rendezvous
+CLASS BindingReplacer
+METHOD transform
+AT ENTRY
+IF readCounter($0) == 2
+DO rendezvous($0)
+ENDRULE
+
+# A rule to enter the second rendezvous for the BindingReplacer
+RULE enter second BindingReplacer rendezvous
+CLASS BindingReplacer
+METHOD transform
+AT EXIT
+IF readCounter($0) == 2
+DO rendezvous($0)
+ENDRULE
+
+# A rule which injects code into the test method triggerRendezvous
+# allowing it to rendezvous with either a Binder or the BindingReplacer
+RULE allow test thread to enter rendezvous
+CLASS BytemanTests
+METHOD triggerRendezvous
+IF TRUE
+DO rendezvous($1)
+ENDRULE
