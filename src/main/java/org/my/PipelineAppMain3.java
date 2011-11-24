@@ -31,8 +31,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A simple application which streams an input file, performs several binding replacements
- * on each line in turn and writes the transformed text to an output file
+ * A simple application which streams an input String, performs several binding replacements
+ * on each line in turn and writes the transformed text to an output String
  */
 public class PipelineAppMain3
 {

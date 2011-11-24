@@ -89,7 +89,7 @@ class PatternReplacer extends TextLineProcessor {
             for (int i = current; i < start ; i++) {
                 builder.append(text.charAt(i));
             }
-            sustitutePatternGroups(matcher, builder);
+            substitutePatternGroups(matcher, builder);
             current = end;
         }
         for (int i = current; i < max ; i++) {
@@ -103,7 +103,7 @@ class PatternReplacer extends TextLineProcessor {
      * @param matcher
      * @return
      */
-    private void sustitutePatternGroups(Matcher matcher, StringBuilder builder) {
+    private void substitutePatternGroups(Matcher matcher, StringBuilder builder) {
         // reject inadequate matches
         if (matcher.groupCount() < maxGroupIndex) {
              return;

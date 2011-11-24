@@ -22,35 +22,77 @@
 # @authors Andrew Dinn
 #
 
-# A rule which traces replacements made by a TextLineProcessor
+# A rule which dumps the text passed to a CharSequenceReader when it is created
+RULE trace input characters
+CLASS CharSequenceReader
+METHOD <init>(CharSequence)
+AT EXIT
+IF TRUE
+DO traceln("#INPUT\n" + $1.toString() + "#END")
+ENDRULE
+
+# A rule which dumps the text stored in a CharSequenceWriter when it is retreived
+RULE trace output characters
+CLASS CharSequenceWriter
+METHOD toString()
+AT EXIT
+IF TRUE
+DO traceln("#OUTPUT\n" + $! + "#END")
+ENDRULE
+
+# A rule which traces replacements made by a PatternReplacer
 # if the returned line of text differs from the input line it
 # is dumped to System.out
 
-RULE dump pattern replaced text
-CLASS ^TextLineProcessor
+RULE dump pattern transformed text
+CLASS PatternReplacer
 METHOD transform(String)
 AT EXIT
 IF NOT $1.equals($!)
-DO System.out.println("  transform(" + $1 + " -> " +$! +")")
+DO traceln(" patternReplace(" + $1 + " -> " +$! +")")
 ENDRULE
+
+# A rule which traces replacements made by a BindingReplacer
+# if the returned line of text differs from the input line it
+# is dumped to System.out
+
+RULE dump binding transformed text
+CLASS BindingReplacer
+METHOD transform(String)
+AT EXIT
+IF NOT $1.equals($!)
+DO traceln(" bindingReplace(" + $1 + " -> " +$! +")")
+ENDRULE
+
+# A rule which traces the lookup or creation of bindings by a Binder
+# each time the binder finds a matching pattern the association between
+# the matched text and the correpsonding bound variable is printed
+#
+# n.b. int the trace statement we would ike to use $next inplace of
+# $0.prefix + $0.counter but a JVM bug means we cannot always
+# reference local variables when rules are loaded dynamically.
 
 RULE dump installed bindings
 CLASS Binder
 METHOD findOrCreateBinding(String)
 AT WRITE counter
 IF TRUE
-DO System.out.println(" bind(X" + $0.counter + " -> " + $1 + ")")
+DO traceln("   bind(" + $0.prefix + $0.counter  + " -> " + $1 + ")")
 ENDRULE
 
-# A rule which traces bindings added to a BindingMap
+# A rule which traces attempts to add a binding to a BindingMap
+# if the supplied value is already bound a reject message is printed
+# otherwise an install message displays the variable name and bound
+# value
 
-#RULE dump new bindings
-#CLASS BindingMap
-#METHOD putIfAbsent(String, String)
-#AT EXIT
-#BIND nullValue : String = null;
-#IF $!.equals(nullValue)
-#DO System.out.println("  ***  " + $1 + " -> " +$2)
-#ENDRULE
+RULE dump new bindings
+CLASS BindingMap
+METHOD putIfAbsent(String, String)
+AT EXIT
+BIND nullValue : String = null;
+     op : String = ($! == nullValue ? "   install(" : "   reject(")
+IF TRUE
+DO traceln(op + $1 + " -> " +$2 + ")")
+ENDRULE
 
 

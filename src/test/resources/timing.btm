@@ -45,25 +45,11 @@ DO createRendezvous($0, 2, true);
    createCounter($0)
 ENDRULE
 
-# A rule to increment the counter for the Binder or BindingReplacer each time a line of text is processed
-#RULE increment Binder or BindingReplacer line counter
-#CLASS ^TextLineProcessor
-#METHOD transform
-#AT ENTRY
-#IF TRUE
-#DO incrementCounter($0)
-#ENDRULE
-
-RULE increment Binder line counter
-CLASS Binder
-METHOD transform
-AT ENTRY
-IF TRUE
-DO incrementCounter($0)
-ENDRULE
-
-RULE increment BindingReplacer line counter
-CLASS BindingReplacer
+# A rule to increment the counter for the Binder or BindingReplacer each time a line of text is
+# about to be processed. Note the use of the ^ to propagate thsi rule into subclass implementations
+# of the abstract method defined by TextLineProcessor.
+RULE increment Binder or BindingReplacer line counter
+CLASS ^TextLineProcessor
 METHOD transform
 AT ENTRY
 IF TRUE
@@ -71,6 +57,8 @@ DO incrementCounter($0)
 ENDRULE
 
 # A rule to enter the first rendezvous for the Binder
+# This rule stops the Binder at the point where it is about to process the 3rd line
+# The Binder will only continue when the test program enters the same rendezvous
 RULE enter first Binder rendezvous
 CLASS Binder
 METHOD transform
@@ -80,6 +68,8 @@ DO rendezvous($0)
 ENDRULE
 
 # A rule to enter the second rendezvous for the Binder
+# This rule stops the Binder after it has processed the 3rd line. The test program can
+# enter this rendezvous and on return be sure that the 3rd line has been processed
 RULE enter second Binder rendezvous
 CLASS Binder
 METHOD transform
@@ -89,6 +79,8 @@ DO rendezvous($0)
 ENDRULE
 
 # A rule to enter the first rendezvous for the BindingReplacer
+# This rule stops the BindingReplacer at the point where it is about to process the 2nd line
+# The BindingReplacer will only continue when the test program enters the same rendezvous
 RULE enter first BindingReplacer rendezvous
 CLASS BindingReplacer
 METHOD transform
@@ -98,6 +90,8 @@ DO rendezvous($0)
 ENDRULE
 
 # A rule to enter the second rendezvous for the BindingReplacer
+# This rule stops the BindingReplacer after it has processed the 2nd line. The test program can
+# enter this rendezvous and on return be sure that the 2nd line has been processed.
 RULE enter second BindingReplacer rendezvous
 CLASS BindingReplacer
 METHOD transform
@@ -107,9 +101,12 @@ DO rendezvous($0)
 ENDRULE
 
 # A rule which injects code into the test method triggerRendezvous
-# allowing it to rendezvous with either a Binder or the BindingReplacer
+# The test program can call triggerRendezvous in order to enter either the
+# Binder or the BindingReplacer rendezvous and it will only return when the
+# Binder or BindingReplacer has also entered the rendezvous. The String
+# argument $1 is used to identify which rendezvous to enter.
 RULE allow test thread to enter rendezvous
-CLASS BytemanTests
+CLASS BytemanNGTests
 METHOD triggerRendezvous
 IF TRUE
 DO rendezvous($1)
