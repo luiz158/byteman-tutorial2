@@ -40,7 +40,7 @@
     </parent>
     <properties>
         <tools.jar>${java.home}/../lib/tools.jar</tools.jar>
-        <byteman.version>2.0.0-SNAPSHOT</byteman.version>
+        <byteman.version>1.6.0</byteman.version>
     </properties>
     <build>
         <plugins>

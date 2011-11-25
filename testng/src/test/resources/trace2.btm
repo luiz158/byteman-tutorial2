@@ -1,0 +1,68 @@
+#######################################################################
+# JBoss, Home of Professional Open Source
+# Copyright 2011, Red Hat and individual contributors as identified
+# by the @authors tag. See the copyright.txt in the distribution for a
+# full listing of individual contributors.
+#
+# This is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation; either version 2.1 of
+# the License, or (at your option) any later version.
+#
+# This software is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this software; if not, write to the Free
+# Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+# 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+#
+# @authors Andrew Dinn
+#
+
+# A rule which traces replacements made by a BindingReplacer
+# if the returned line of text differs from the input line it
+# is dumped to System.out
+
+RULE dump binding transformed text
+CLASS BindingReplacer
+METHOD transform(String)
+AT EXIT
+IF NOT $1.equals($!)
+DO traceln(" bindingReplace(" + $1 + " -> " +$! +")")
+ENDRULE
+
+# A rule which traces the lookup or creation of bindings by a Binder
+# each time the binder finds a matching pattern the association between
+# the matched text and the correpsonding bound variable is printed
+#
+# n.b. int the trace statement we would ike to use $next inplace of
+# $0.prefix + $0.counter but a JVM bug means we cannot always
+# reference local variables when rules are loaded dynamically.
+
+RULE dump installed bindings
+CLASS Binder
+METHOD findOrCreateBinding(String)
+AT WRITE counter
+IF TRUE
+DO traceln("   bind(" + $0.prefix + $0.counter  + " -> " + $1 + ")")
+ENDRULE
+
+# A rule which traces attempts to add a binding to a BindingMap
+# if the supplied value is already bound a reject message is printed
+# otherwise an install message displays the variable name and bound
+# value
+
+RULE dump new bindings
+CLASS BindingMap
+METHOD putIfAbsent(String, String)
+AT EXIT
+BIND nullValue : String = null;
+     op : String = ($! == nullValue ? "   install(" : "   reject(")
+IF TRUE
+DO traceln(op + $1 + " -> " +$2 + ")")
+ENDRULE
+
+

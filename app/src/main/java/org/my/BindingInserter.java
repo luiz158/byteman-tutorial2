@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 
 /**
  * A BindingInserter is text line processor similar to {@link Binder}. However, as well as binding
- * matched text to identifiers it also inserts a reference to the binding intot he output in place
+ * matched text to identifiers it also inserts a reference to the binding into the output in place
  * of the matched text.<p/>
  *
  * The pattern and prefix are as expected by {@link Binder}.<p/>

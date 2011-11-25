@@ -47,6 +47,7 @@ public class BytemanJUnitTests
     @Test
     public void testPipeline() throws Exception
     {
+        System.out.println("testPipeLine:");
         StringBuffer buffer = new StringBuffer("hello world!");
         buffer.append(" goodbye cruel world, goodbye!\n");
         CharSequenceReader reader = new CharSequenceReader(buffer);
@@ -65,7 +66,7 @@ public class BytemanJUnitTests
     /**
      * this is the same code as the previous test but it uses a Byteman rule to throw an IOException in
      * the pattern replacer before it can processes any text lines. The pattern replacer thread should catch
-     * and print the exception, close its input and output streams and exit, causing the writer to finish
+     * the exception, close its input and output streams and exit, causing the writer to finish
      * with an empty output. All the pipeline threads shoudl exit cleanly.
      * @throws Exception
      */
@@ -76,6 +77,7 @@ public class BytemanJUnitTests
             action = "throw new java.io.IOException()")
     public void testErrorInPipeline() throws Exception
     {
+        System.out.println("testErrorInPipeline:");
         StringBuffer buffer = new StringBuffer("hello world!");
         buffer.append(" goodbye cruel world, goodbye!\n");
         CharSequenceReader reader = new CharSequenceReader(buffer);
@@ -133,6 +135,7 @@ public class BytemanJUnitTests
                     action = "throw new java.io.IOException()")})
     public void testErrorInStuffedPipeline() throws Exception
     {
+        System.out.println("testErrorInStuffedPipeline:");
         StringBuffer buffer = new StringBuffer("hello world!\n");
         buffer.append("goodbye cruel world, goodbye!\n");
         for (int i = 0; i < 40; i++) {
