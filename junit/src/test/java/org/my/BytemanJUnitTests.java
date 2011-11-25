@@ -48,9 +48,8 @@ public class BytemanJUnitTests
     public void testPipeline() throws Exception
     {
         System.out.println("testPipeLine:");
-        StringBuffer buffer = new StringBuffer("hello world!");
-        buffer.append(" goodbye cruel world, goodbye!\n");
-        CharSequenceReader reader = new CharSequenceReader(buffer);
+        String input = "hello world! goodbye cruel world, goodbye!\n";
+        CharSequenceReader reader = new CharSequenceReader(input);
         PatternReplacer replacer = new PatternReplacer("world", "mum",reader);
         CharSequenceWriter writer = new CharSequenceWriter(replacer);
         reader.start();
