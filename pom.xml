@@ -40,8 +40,24 @@
     </properties>
     <modules>
         <module>app</module>
-        <module>junit</module>
-        <module>testng</module>
     </modules>
+    <!--
+        By default we just build the app code. We use two extra profiles to schedule building
+        of the junit or testng test modules
+    -->
+    <profiles>
+        <profile>
+            <id>junit</id>
+            <modules>
+                <module>junit</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>testng</id>
+            <modules>
+                <module>testng</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>
 
