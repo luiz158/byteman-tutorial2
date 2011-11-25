@@ -40,11 +40,11 @@ public class PipelineAppMain
             PipelineProcessor[] pipeline = new PipelineProcessor[5];
 
             // pipeline stage 0 replaces login name
-            pipeline[0] = new PatternReplacer("(.*)adinn(.*)", "\\1msmith\\2",reader);
+            pipeline[0] = new PatternReplacer("adinn", "msmith",reader);
             // pipeline stage 1 tees intermediate output to a trace filewriter
             pipeline[1] = new TeeProcessor(pipeline[0]);
             // pipeline stage 2 replaces first name
-            pipeline[2] = new PatternReplacer("(.*)[Aa]ndrew(.*)", "\\1Michael\\2", pipeline[1]);
+            pipeline[2] = new PatternReplacer("[Aa]ndrew", "Michael", pipeline[1]);
             // pipeline stage 3 tees intermediate output to a trace filewriter
             pipeline[3] = new TeeProcessor(pipeline[2]);
             // pipeline stage 4 replaces surname
