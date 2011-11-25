@@ -1,0 +1,35 @@
+Member Since:
+    Jul 3, 2007
+Time Zone:
+    (GMT) Western Europe Time, London, Lisbon, Casablanca, Monrovia 
+Biography:
+    Andrew is a member of the Red Hat JVM development team and also
+    leads JBoss project Byteman. He lives in sunny Newcastle Upon Tyne
+    in the north of England where it is always T-shirt weather.
+Expertise:
+    Andrew has been writing system software for over 25 years, 10 of
+    them in academic research, despite having no formal qualification
+    in Computer Science. His areas of interest include virtual
+    machines and compilers and transactional systems.
+github Username:
+    adinn 
+Git Author Names:
+    andrew dinn 
+Home Address:
+
+Company name:
+    Red Hat 
+Role:
+    Developer 
+Title:
+    Principal Software Engineer 
+Address:
+
+Do you wish to be contacted:
+    No 
+Subscribe to JBoss Newsletter:
+    No 
+Hire Date:
+    7/2/2007 
+Groups:
+    JBUG Newcastle

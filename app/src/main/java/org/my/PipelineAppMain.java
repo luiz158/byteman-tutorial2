@@ -36,7 +36,7 @@ public class PipelineAppMain
     {
         try {
             // pipeline source reads file foo.txt
-            FileReader reader = new FileReader("resources/foo.txt");
+            FileReader reader = new FileReader("foo.txt");
             PipelineProcessor[] pipeline = new PipelineProcessor[5];
 
             // pipeline stage 0 replaces login name
