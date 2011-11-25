@@ -21,27 +21,40 @@
   ~
   ~ @authors Andrew Dinn
   -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.my</groupId>
-    <artifactId>tutorial2</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>tutorial2-app</artifactId>
+    <packaging>jar</packaging>
     <description>
         The 2nd byteman tutorial provides example of how to use Byteman to test an application
     </description>
     <version>1.0.0</version>
-    <name>tutorial2</name>
+    <name>tutorial2-app</name>
+    <parent>
+        <groupId>org.my</groupId>
+        <artifactId>tutorial2</artifactId>
+        <version>1.0.0</version>
+    </parent>
     <properties>
         <tools.jar>${java.home}/../lib/tools.jar</tools.jar>
         <byteman.version>2.0.0-SNAPSHOT</byteman.version>
     </properties>
-    <modules>
-        <module>app</module>
-        <module>junit</module>
-        <module>testng</module>
-    </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <debug>true</debug>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
 

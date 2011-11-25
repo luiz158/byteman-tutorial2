@@ -135,7 +135,7 @@ public class BytemanJUnitTests
     {
         StringBuffer buffer = new StringBuffer("hello world!\n");
         buffer.append("goodbye cruel world, goodbye!\n");
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 40; i++) {
             buffer.append("goodbye! goodbye! goodbye!\n");
         }
         CharSequenceReader reader = new CharSequenceReader(buffer);
