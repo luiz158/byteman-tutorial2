@@ -1,0 +1,53 @@
+#######################################################################
+# JBoss, Home of Professional Open Source
+# Copyright 2011, Red Hat and individual contributors as identified
+# by the @authors tag. See the copyright.txt in the distribution for a
+# full listing of individual contributors.
+#
+# This is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation; either version 2.1 of
+# the License, or (at your option) any later version.
+#
+# This software is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this software; if not, write to the Free
+# Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+# 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+#
+# @authors Andrew Dinn
+#
+
+# A rule which dumps the text passed to a CharSequenceReader when it is created
+RULE trace input characters
+CLASS CharSequenceReader
+METHOD <init>(CharSequence)
+AT EXIT
+IF TRUE
+DO traceln("#INPUT\n" + $1.toString() + "#END")
+ENDRULE
+
+# A rule which dumps the text stored in a CharSequenceWriter when it is retreived
+RULE trace output characters
+CLASS CharSequenceWriter
+METHOD toString()
+AT EXIT
+IF TRUE
+DO traceln("#OUTPUT\n" + $! + "#END")
+ENDRULE
+
+# A rule which traces replacements made by a PatternReplacer
+# if the returned line of text differs from the input line it
+# is dumped to System.out
+
+RULE dump pattern transformed text
+CLASS PatternReplacer
+METHOD transform(String)
+AT EXIT
+IF NOT $1.equals($!)
+DO traceln(" patternReplace(" + $1 + " -> " +$! +")")
+ENDRULE

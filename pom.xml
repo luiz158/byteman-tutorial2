@@ -53,6 +53,12 @@
             </modules>
         </profile>
         <profile>
+            <id>junit2</id>
+            <modules>
+                <module>junit2</module>
+            </modules>
+        </profile>
+        <profile>
             <id>testng</id>
             <modules>
                 <module>testng</module>
