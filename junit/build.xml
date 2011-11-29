@@ -111,7 +111,7 @@
                 <pathelement location="../app/target/tutorial2-app-1.0.0.jar"/>
                 <pathelement location="${junit.jar}"/>
                 <fileset dir="${byteman.home}/contrib/bmunit" includes="byteman-bmunit.jar"/>
-                <fileset dir="${byteman.home}/lib" includes="byteman.jar byteman-submit.jar byteman-install.jar"/>
+                <fileset dir="${byteman.home}/lib" includes="byteman-submit.jar byteman-install.jar"/>
                 <pathelement location="${java.home}/lib/tools.jar"/>
                 <pathelement location="${java.home}/../lib/tools.jar"/>
             </classpath>

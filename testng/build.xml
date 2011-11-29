@@ -116,7 +116,7 @@
                 <pathelement location="${junit.jar}"/>
                 <pathelement location="${testng.jar}"/>
                 <fileset dir="${byteman.home}/contrib/bmunit" includes="byteman-bmunit.jar"/>
-                <fileset dir="${byteman.home}/lib" includes="byteman.jar byteman-submit.jar byteman-install.jar"/>
+                <fileset dir="${byteman.home}/lib" includes="byteman-submit.jar byteman-install.jar"/>
                 <pathelement location="${java.home}/../lib/tools.jar"/>
             </classpath>
             <classfileset dir="target/test-classes" includes="org/my/BytemanNGTests.class"/>
