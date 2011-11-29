@@ -184,9 +184,9 @@ public class BytemanNGTests extends BMNGRunner
         // now we rendezvous again with the replacer ensuring that it has completed processing
         // the second line. this means the binding for X4 will not be found so the reference
         // will not get replaced
+        triggerRendezvous(replacer);
         String value = bindings.get("X4");
         assert(value == null);
-        triggerRendezvous(replacer);
         // next we rendezvous with the binder to allow it to pass the trigger point where it
         // is just about to process the third line
         triggerRendezvous(binder);
