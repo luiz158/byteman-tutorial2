@@ -24,9 +24,6 @@
 
 package org.my;
 
-
-import org.omg.CosNaming.Binding;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;

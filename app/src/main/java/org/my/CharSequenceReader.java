@@ -24,7 +24,6 @@
 
 package org.my;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PipedReader;
 import java.io.PipedWriter;

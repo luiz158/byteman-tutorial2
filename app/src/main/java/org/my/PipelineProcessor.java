@@ -27,7 +27,6 @@ package org.my;
 import java.io.IOException;
 import java.io.PipedReader;
 import java.io.PipedWriter;
-import java.lang.annotation.Inherited;
 
 /**
  * A PipelineProcessor is a stream processor which transforms an input stream of bytes into an

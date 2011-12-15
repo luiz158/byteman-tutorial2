@@ -42,12 +42,10 @@ import java.util.regex.Pattern;
 public class BindingReplacer extends TextLineProcessor
 {
     private Pattern pattern;
-    private int counter;
     private BindingMap bindings;
 
     public BindingReplacer(BindingMap bindings, Source source) throws IOException {
         super(source);
-        this.counter = 1;
         this.bindings = bindings;
         this.pattern = Pattern.compile("\\$\\{([A-Za-z]+[1-9][0-9]*)\\}");
     }
