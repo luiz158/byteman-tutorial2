@@ -70,6 +70,8 @@ public class PipelineAppMain
                 pipeline[i].join();
             }
             writer.join();
+            writer2.join();
+            writer3.join();
         } catch (InterruptedException ie) {
             ie.printStackTrace();
         } catch (IOException ioe) {
